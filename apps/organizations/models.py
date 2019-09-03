@@ -32,7 +32,7 @@ class CourseOrg(BaseModel):
     category = models.CharField(verbose_name="机构类别", choices=CATEGORY_CHOICES, max_length=4)
     click_nums = models.IntegerField(verbose_name="点击数", default=0)
     fav_nums = models.IntegerField(verbose_name="收藏数", default=0)
-    image = models.ImageField(verbose_name="机构logo", upload_to="org/org_logo/%Y/%m", max_length=100)
+    image = models.ImageField(verbose_name="机构logo", upload_to="static/media/org/%Y/%m", max_length=100)
 
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name="所在城市")
 
@@ -53,7 +53,7 @@ class Teacher(BaseModel):
     click_nums = models.IntegerField(verbose_name="点击数", default=0)
     fav_nums = models.IntegerField(verbose_name="收藏数", default=0)
     age = models.IntegerField(verbose_name="讲师年龄", default=18)
-    image = models.ImageField(verbose_name="讲师头像", upload_to="org/teacher_img/%Y/%m", max_length=100)
+    image = models.ImageField(verbose_name="讲师头像", upload_to="static/media/teacher/%Y/%m", max_length=100)
 
     org = models.ForeignKey(CourseOrg, on_delete=models.CASCADE, verbose_name="所属机构")
 

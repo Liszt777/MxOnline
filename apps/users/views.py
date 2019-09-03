@@ -34,7 +34,9 @@ class RegisterView(View):
             return HttpResponseRedirect(reverse('index'))
         else:
             register_get_form = RegisterGetForm()
-            return render(request, 'register.html', {'register_get_form': register_get_form})
+            return render(request, 'register.html', {'register_get_form': register_get_form,
+                                                     'register_post_form': register_post_form
+                                                     })
 
 
 class DynamicLoginView(View):
