@@ -5,8 +5,8 @@ from apps.operations.models import UserAsk, CourseComments, UserCourse, UserFav,
 
 # 后台管理系统的全局配置,可以放在任意一个adminx.py文件中都有效
 class GlobalSettings(object):
-    site_title = '慕学后台管理系统'
-    site_footer = '慕学在线'
+    site_title = 'MX在线管理系统'
+    site_footer = 'MX在线'
     # menu_style = 'accordion'  将各模块的子目录进行了一个归整
 
 
