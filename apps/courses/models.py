@@ -32,7 +32,7 @@ class Course(BaseModel):
     youneed_know = models.CharField(verbose_name="课程须知", max_length=300, default="")
     teacher_tell = models.CharField(verbose_name="老师告诉你", max_length=300, default="")
     detail = models.TextField(verbose_name="课程详情", default="")
-    image = models.ImageField(verbose_name="封面图", upload_to="static/media/courses/%Y/%m", max_length=100)
+    image = models.ImageField(verbose_name="封面图", upload_to="courses/%Y/%m", max_length=100)
 
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="所属讲师")
 
@@ -74,7 +74,7 @@ class Video(BaseModel):
 class CourseResource(BaseModel):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(verbose_name="课程资源名称", max_length=100)
-    file = models.FileField(verbose_name="下载地址", upload_to="static/media/course/resource/%Y/%m", max_length=200)
+    file = models.FileField(verbose_name="下载地址", upload_to="course/resource/%Y/%m", max_length=200)
 
     class Meta:
         verbose_name = "课程资源"
