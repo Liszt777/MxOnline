@@ -1,6 +1,6 @@
 from django.db import models
 
-from apps.organizations.models import Teacher
+from apps.organizations.models import Teacher, CourseOrg
 from apps.users.models import BaseModel
 
 
@@ -33,8 +33,10 @@ class Course(BaseModel):
     teacher_tell = models.CharField(verbose_name="老师告诉你", max_length=300, default="")
     detail = models.TextField(verbose_name="课程详情", default="")
     image = models.ImageField(verbose_name="封面图", upload_to="courses/%Y/%m", max_length=100)
+    is_classics = models.BooleanField(default=False, verbose_name="是否为经典课程")
 
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="所属讲师")
+    course_org = models.ForeignKey(CourseOrg, on_delete=models.CASCADE, verbose_name="课程机构", null=True, blank=True)
 
     class Meta:
         verbose_name = '课程信息'

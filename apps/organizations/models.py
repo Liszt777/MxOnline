@@ -37,6 +37,9 @@ class CourseOrg(BaseModel):
     students = models.IntegerField(default=0, verbose_name="学习人数")
     course_nums = models.IntegerField(default=0, verbose_name="课程数")
 
+    is_auth = models.BooleanField(verbose_name="是否认证", default=False)
+    is_gold = models.BooleanField(verbose_name="是否金牌", default=False)
+
     city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name="所在城市")
 
     class Meta:
@@ -46,6 +49,14 @@ class CourseOrg(BaseModel):
     def __str__(self):
         return self.name
 
+    def courses(self):
+        # 把包放在这里是为了避免循环引用而出错，动态语言调用这个方法时才会运行，所以在这里调用不会出错
+        # from apps.courses.models import Course
+        # courses = Course.objects.filter(course_org=self)
+        # 上面的方法虽然能够实现功能，但还是让人觉得不舒服（因为循环引用了）
+        # 由于courses中的models中的Course外键关联了CourseOrg，所以自然而然的CourseOrg反向关联了Course(这是models自动帮我们完成的)
+        courses = self.course_set.filter(is_classics=True)[:5]  # 这里的course_set类似于objects的功能
+        return courses
 
 class Teacher(BaseModel):
     name = models.CharField(verbose_name="讲师姓名", max_length=30)
