@@ -40,5 +40,6 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
 
     # 机构相关页面
-    url(r'^org-list/', OrgView.as_view(), name='org-list')
+    #url(r'^org-list/', OrgView.as_view(), name='org-list')
+    url(r'^org/', include(('apps.organizations.urls', 'organizations'), namespace="org"))
 ]
