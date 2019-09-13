@@ -43,6 +43,9 @@ urlpatterns = [
     #url(r'^org-list/', OrgView.as_view(), name='org-list')
     url(r'^org/', include(('apps.organizations.urls', 'organizations'), namespace="org")),
 
+    # 课程相关
+    url(r'^course/', include(('apps.courses.urls', 'courses'), namespace="course")),
+
     # 用户相关操作
     url(r'^op/', include(('apps.operations.urls', 'operations'), namespace="op"))
 ]
