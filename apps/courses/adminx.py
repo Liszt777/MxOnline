@@ -1,6 +1,6 @@
 import xadmin
 
-from apps.courses.models import Course, Lesson, Video, CourseResource
+from apps.courses.models import Course, Lesson, Video, CourseResource, CourseTag
 
 
 class CourseAdmin(object):
@@ -29,7 +29,14 @@ class CourseResourceAdmin(object):
     list_filter = ['name', 'course', 'add_time']
 
 
+class CourseTagAdmin(object):
+    list_display = ['course', 'tag', 'add_time']
+    search_fields = ['course', 'tag']
+    list_filter = ['course', 'tag', 'add_time']
+
+
 xadmin.site.register(Course, CourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 xadmin.site.register(Video, VideoAdmin)
 xadmin.site.register(CourseResource, CourseResourceAdmin)
+xadmin.site.register(CourseTag, CourseTagAdmin)
