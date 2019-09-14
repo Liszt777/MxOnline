@@ -57,6 +57,9 @@ class DynamicLoginView(View):
                 user.mobile = mobile
                 user.save()
             login(request, user)
+            next = request.GET.get("next", "")
+            if next:
+                return HttpResponseRedirect(next)  # 跳转到登陆页面之前的一个页面
             return HttpResponseRedirect(reverse('index'))
         else:
             d_loginform = DynamicLoginForm()
@@ -101,10 +104,11 @@ class LoginView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return HttpResponseRedirect(reverse("index"))
-
+        next = request.GET.get("next", "")
         login_form = DynamicLoginForm()
         return render(request, 'login.html', {
             "login_form": login_form,
+            "next": next,
         })
 
     def post(self, request):
@@ -131,6 +135,9 @@ class LoginView(View):
                 login(request, user)
                 # 登录成功之后应该怎么返回页面
                 # return render(request, 'index.html')
+                next = request.GET.get("next", "")
+                if next:
+                    return HttpResponseRedirect(next)  # 跳转到登陆页面之前的一个页面
                 return HttpResponseRedirect(reverse("index"))
             else:
                 # 未查询到用户
