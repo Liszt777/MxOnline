@@ -19,7 +19,7 @@ class BaseModel(models.Model):
 
 # 自定义userprofile表覆盖默认的user表
 class UserProfile(AbstractUser):
-    nickname = models.CharField(verbose_name="昵称", max_length=50, default="")
+    nickname = models.CharField(verbose_name="昵称", max_length=50, default="我是一个学员")
     birthday = models.DateField(verbose_name="生日", null=True, blank=True)
     gender = models.CharField(verbose_name="性别", choices=GENDER_CHOICES, max_length=6)
     mobile = models.CharField(verbose_name="手机号码", max_length=11)

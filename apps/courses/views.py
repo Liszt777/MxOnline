@@ -4,7 +4,49 @@ from django.views.generic.base import View
 from pure_pagination import Paginator, PageNotAnInteger
 
 from apps.courses.models import Course, CourseTag, CourseResource
-from apps.operations.models import UserFav, UserCourse
+from apps.operations.models import UserFav, UserCourse, CourseComments
+
+
+class CourseCommentsView(View):
+    login_url = "/login/"
+
+    def get(self, request, course_id, *args, **kwargs):
+        """ 获取课程章节信息 """
+        course = Course.objects.get(id=int(course_id))
+        if course:
+            course.click_nums += 1
+            course.save()
+
+        comments = CourseComments.objects.filter(course=course)
+
+        # 1. 用户和课程之间的关联
+        # 2. 对View进行Login登陆的验证(login_required)
+        # 3. 用户还参与的其他课程
+
+        # 查询用户是否已经关联了该课程
+        user_courses = UserCourse.objects.filter(user=request.user, course=course)
+        if not user_courses:
+            user_course = UserCourse(user=request.user, course=course)
+            user_course.save()
+
+            course.students += 1
+            course.save()
+
+        # 学习过该课程的同学还学过哪些课程
+        user_courses = UserCourse.objects.filter(course=course)
+        user_ids = [user_course.user.id for user_course in user_courses]
+        all_courses = UserCourse.objects.filter(user_id__in=user_ids).order_by("-course__click_nums")[:3]
+        related_courses = [user_course.course for user_course in all_courses if user_course.course.id != course.id]
+
+        # 课程资料下载
+        course_resources = CourseResource.objects.filter(course=course)
+
+        return render(request, 'course-comment.html', {
+            "course": course,
+            "course_resources": course_resources,
+            "related_courses": related_courses,
+            "comments": comments,
+        })
 
 
 class CourseLessonView(LoginRequiredMixin, View):
